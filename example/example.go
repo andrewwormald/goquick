@@ -1,3 +1,3 @@
 package example
 
-//go:generate ../bin/main -schema_path=schema.sql -package_name=example -tables=transactions
+//go:generate ../bin/goquick_amd64_darwin -schema_path=schema.sql -package_name=example

@@ -7,6 +7,87 @@ import (
 	"database/sql"
 )
 
+type User struct {
+	Id   int64
+	Name string
+}
+
+func listUsersAfterFrom(ctx context.Context, dbc *sql.DB, afterFromStatement string) ([]User, error) {
+	rows, err := dbc.QueryContext(ctx, "select id, name from users "+afterFromStatement+";")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var ls []User
+	for rows.Next() {
+		var l User
+		err := rows.Scan(
+			&l.Id,
+			&l.Name,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		ls = append(ls, l)
+	}
+
+	return ls, nil
+}
+
+func listUsersWhere(ctx context.Context, dbc *sql.DB, where string) ([]User, error) {
+	return listUserAfterFrom(ctx, dbc, where)
+}
+
+func lookupUserAfterFrom(ctx context.Context, dbc *sql.DB, afterFromStatement string) (User, error) {
+	rows, err := dbc.QueryContext(ctx, "select id, name from users "+afterFromStatement+";")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var l User
+	for rows.Next() {
+		err := rows.Scan(
+			&l.Id,
+			&l.Name,
+		)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return l, nil
+}
+
+func lookupUserWhere(ctx context.Context, dbc *sql.DB, where string) (User, error) {
+	return lookupUserAfterFrom(ctx, dbc, where)
+}
+
+func InsertUser(ctx context.Context, dbc *sql.DB, strct User) (int64, error) {
+	res, err := dbc.ExecContext(ctx, "insert into users "+
+		"set id=? ,name=?",
+		strct.Id,
+		strct.Name,
+	)
+	if err != nil {
+		return 0, err
+	}
+
+	return res.LastInsertId()
+}
+
+func DeleteUser(ctx context.Context, dbc *sql.DB, where string) error {
+	_, err := dbc.ExecContext(ctx, "delete from users "+where)
+	return err
+}
+
+func UpdateUser(ctx context.Context, dbc *sql.DB, where, set string, args ...interface{}) error {
+	_, err = dbc.ExecContext(ctx, "update users set "+set+where, args)
+	return err
+}
+
 type Transaction struct {
 	Id   int64
 	Type int32
