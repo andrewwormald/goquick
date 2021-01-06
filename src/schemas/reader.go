@@ -30,10 +30,35 @@ func Read(path string) ([]templates.Config, error) {
 		strct.Struct.Name.Plural = strctName
 		strct.Struct.Name.Singular = strings.TrimSuffix(strctName, "s")
 
-		fieldSections := strings.Split(segment, "(")[1]
-		fieldSections = strings.ReplaceAll(fieldSections, ")", "")
-		fieldSections = strings.TrimSpace(fieldSections)
-		fields := strings.Split(fieldSections, ",")
+		var fields []string
+		for _, v := range strings.Split(segment, "\n") {
+			cleaned := strings.TrimSpace(v)
+			if strings.HasPrefix(cleaned, ")") {
+				continue
+			}
+
+			if strings.HasSuffix(cleaned, "(") {
+				continue
+			}
+
+			if strings.HasPrefix(cleaned, "primary") {
+				continue
+			}
+
+			if strings.HasPrefix(cleaned, "unique") {
+				continue
+			}
+
+			if strings.HasPrefix(cleaned, "index") {
+				continue
+			}
+
+			cleaned = strings.ReplaceAll(cleaned, ",", "")
+			cleaned = strings.ReplaceAll(cleaned, "not null", "")
+			cleaned = strings.ReplaceAll(cleaned, "primary key", "")
+
+			fields = append(fields, cleaned)
+		}
 
 		strct.Struct.Fields = make(map[string]string, len(fields))
 		for _, fieldLiteral := range fields {
