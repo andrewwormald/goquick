@@ -4,11 +4,11 @@ GoQuick is a vendor package to quickly generate SQL packages based and a SQL tab
 GoQuick is not production ready and is still in development. You are encouraged to log issues so that this gets betetr
 
 ### Download
-[MacOS (darwin amd64)](https://github.com/andrewwormald/goquick/raw/master/bin/gowuick_amd64_darwin)
+[MacOS (darwin amd64)](https://github.com/andrewwormald/goquick/raw/master/bin/goquick_amd64_darwin)
 
-[Linux (amd64)](https://github.com/andrewwormald/goquick/raw/master/bin/gowuick_amd64_linux)
+[Linux (amd64)](https://github.com/andrewwormald/goquick/raw/master/bin/goquick_amd64_linux)
 
-[Windows (amd64)](https://github.com/andrewwormald/goquick/raw/master/bin/gowuick_amd64_windows)
+[Windows (amd64)](https://github.com/andrewwormald/goquick/raw/master/bin/goquick_amd64_windows)
 
 #### Basic implementation 
 ```golang
