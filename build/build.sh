@@ -7,6 +7,3 @@ GOOS=windows go build -o ../bin/goquick_amd64_windows main.go
 
 cd ../bin
 
-sudo chmod 777 goquick_amd64_darwin
-sudo chmod 777 goquick_amd64_linux
-sudo chmod 777 goquick_amd64_windows

@@ -105,6 +105,8 @@ func returnGoType(sqlType string) string {
 		return "time.Time"
 	case "datetime":
 		return "time.Time"
+	case "bool":
+		return "bool"
 	default:
 		return "interface{}"
 	}
