@@ -3,6 +3,9 @@ GoQuick is a vendor package to quickly generate SQL packages based and a SQL tab
 
 GoQuick is not production ready and is still in development. You are encouraged to log issues so that this gets betetr
 
+### Download
+[darwin amd64](https://github.com/andrewwormald/goquick/raw/master/bin/gowuick_amd64_darwin)
+
 #### Basic implementation 
 ```golang
 //go:generate ../bin/goquick -schema_path=schema.sql -package_name=example
