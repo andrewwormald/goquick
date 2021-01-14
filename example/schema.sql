@@ -6,4 +6,5 @@ create table users (
 create table transactions (
     id bigint auto increment primary,
     type int,
+    `name` varchar(255),
 );

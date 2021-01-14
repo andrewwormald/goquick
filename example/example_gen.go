@@ -90,11 +90,12 @@ func UpdateUser(ctx context.Context, dbc *sql.DB, where, set string, args ...int
 
 type Transaction struct {
 	Id   int64
+	Name string
 	Type int32
 }
 
 func listTransactionsAfterFrom(ctx context.Context, dbc *sql.DB, afterFromStatement string) ([]Transaction, error) {
-	rows, err := dbc.QueryContext(ctx, "select id, type from transactions "+afterFromStatement+";")
+	rows, err := dbc.QueryContext(ctx, "select id, type, name from transactions "+afterFromStatement+";")
 	if err != nil {
 		return nil, err
 	}
@@ -105,6 +106,7 @@ func listTransactionsAfterFrom(ctx context.Context, dbc *sql.DB, afterFromStatem
 		var l Transaction
 		err := rows.Scan(
 			&l.Id,
+			&l.Name,
 			&l.Type,
 		)
 		if err != nil {
@@ -122,7 +124,7 @@ func listTransactionsWhere(ctx context.Context, dbc *sql.DB, where string) ([]Tr
 }
 
 func lookupTransactionAfterFrom(ctx context.Context, dbc *sql.DB, afterFromStatement string) (Transaction, error) {
-	rows, err := dbc.QueryContext(ctx, "select id, type from transactions "+afterFromStatement+";")
+	rows, err := dbc.QueryContext(ctx, "select id, type, name from transactions "+afterFromStatement+";")
 	if err != nil {
 		return nil, err
 	}
@@ -132,6 +134,7 @@ func lookupTransactionAfterFrom(ctx context.Context, dbc *sql.DB, afterFromState
 	for rows.Next() {
 		err := rows.Scan(
 			&l.Id,
+			&l.Name,
 			&l.Type,
 		)
 		if err != nil {
@@ -148,8 +151,9 @@ func lookupTransactionWhere(ctx context.Context, dbc *sql.DB, where string) (Tra
 
 func InsertTransaction(ctx context.Context, dbc *sql.DB, strct Transaction) (int64, error) {
 	res, err := dbc.ExecContext(ctx, "insert into transactions "+
-		"set id=? ,type=?",
+		"set id=? ,type=? ,name=?",
 		strct.Id,
+		strct.Name,
 		strct.Type,
 	)
 	if err != nil {

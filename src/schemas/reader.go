@@ -56,6 +56,7 @@ func Read(path string) ([]templates.Config, error) {
 			cleaned = strings.ReplaceAll(cleaned, ",", "")
 			cleaned = strings.ReplaceAll(cleaned, "not null", "")
 			cleaned = strings.ReplaceAll(cleaned, "primary key", "")
+			cleaned = strings.ReplaceAll(cleaned, "`", "")
 
 			fields = append(fields, cleaned)
 		}
